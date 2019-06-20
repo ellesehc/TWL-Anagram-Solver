@@ -1,3 +1,5 @@
+f = open("words.csv").read().split()   
+
 def remaining_tiles(attack):
 
 	"""
