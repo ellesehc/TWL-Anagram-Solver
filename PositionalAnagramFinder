@@ -1,12 +1,17 @@
-def tile_addition_bingo(word, open_letters):
+def positional_finder(word, letter, position):
 
 	"""
-	Designed for 8-letter anagrams
-	Function finds anagrams based on open letters provided
-	Open letters are tiles you want to add to for bingo
+	Designed for 7 and 8-letter anagrams with particular letter in position
+	Example: 
+
+	astride
+	staider
+	tirades
+
+	if letter == i and position == 2, the function will only print out 'tirades'
 	"""
 
 	for words in f:
-		for letter in open_letters:
-			if sorted(word + letter) == sorted(words):
+		if sorted(word) == sorted(words):
+			if words[position - 1] == letter:
 				print(words)
