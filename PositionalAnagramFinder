@@ -1,0 +1,12 @@
+def tile_addition_bingo(word, open_letters):
+
+	"""
+	Designed for 8-letter anagrams
+	Function finds anagrams based on open letters provided
+	Open letters are tiles you want to add to for bingo
+	"""
+
+	for words in f:
+		for letter in open_letters:
+			if sorted(word + letter) == sorted(words):
+				print(words)
