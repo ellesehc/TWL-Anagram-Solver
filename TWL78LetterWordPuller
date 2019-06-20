@@ -1,0 +1,105 @@
+import requests
+import time
+
+"""
+Designed to take 7 and 8-letter words from a TWL-approved word site
+"""
+
+start_time = time.time()
+
+word_bank = []
+
+def initial_retrieval():
+    
+    url = "https://scrabble123.com/seven-letter-TWL-word-list"
+    response = requests.get(url)
+    
+    html_text = response.text
+    
+    first_cleaning = html_text.replace('"','')
+    final_cleaning = first_cleaning.replace('\'','') 
+    first_split = final_cleaning.split("row") 
+    final_split = first_split[4].split("/scrabble-twl-dictionary/")
+       
+    for word in final_split:
+        word_bank.append(word[0:7])
+
+def initial_retrieval2():
+    
+    url = "https://scrabble123.com/eight-letter-TWL-word-list"
+    response = requests.get(url)
+    
+    html_text = response.text
+    
+    first_cleaning = html_text.replace('"','')
+    final_cleaning = first_cleaning.replace('\'','') 
+    first_split = final_cleaning.split("row") 
+    final_split = first_split[4].split("/scrabble-twl-dictionary/")
+       
+    for word in final_split:
+        word_bank.append(word[0:8])
+
+def retrieval(page_number):
+    
+    url = "https://scrabble123.com/seven-letter-TWL-word-list/page/" + str(page_number)
+    response = requests.get(url)
+    
+    html_text = response.text
+    
+    first_cleaning = html_text.replace('"','')
+    final_cleaning = first_cleaning.replace('\'','') 
+    first_split = final_cleaning.split("row") 
+    final_split = first_split[4].split("/scrabble-twl-dictionary/")
+       
+    for word in final_split:
+        word_bank.append(word[0:7])
+
+def retrieval2(page_number):
+    
+    url = "https://scrabble123.com/eight-letter-TWL-word-list/page/" + str(page_number)
+    response = requests.get(url)
+    
+    html_text = response.text
+    
+    first_cleaning = html_text.replace('"','')
+    final_cleaning = first_cleaning.replace('\'','') 
+    first_split = final_cleaning.split("row") 
+    final_split = first_split[4].split("/scrabble-twl-dictionary/")
+       
+    for word in final_split:
+        word_bank.append(word[0:8])
+
+initial_retrieval()  
+initial_retrieval2()
+
+page7 = 2
+last_page7 = 223
+
+while page7 <= last_page7:
+    retrieval(page7)
+    page7 += 1
+
+page8 = 2
+last_page8 = 276
+
+while page8 <= last_page8:
+    retrieval2(page8)
+    page8 += 1
+
+
+for word in word_bank:
+    if '<' in word or '>' in word:
+        word_bank.remove(word)
+    if len(word) < 7:
+        word_bank.remove(word)
+ 
+f = open("words.csv", "w+")     
+
+for words in word_bank:
+    f.write("%s\n" % words)
+
+f.close()
+
+elapsed_time = time.time() - start_time
+
+print(elapsed_time/60)
