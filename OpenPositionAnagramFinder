@@ -1,3 +1,5 @@
+f = open("words.csv").read().split()   
+
 def tile_addition_bingo(word, open_letters):
 
 	"""
