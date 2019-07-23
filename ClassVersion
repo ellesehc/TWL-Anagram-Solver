@@ -1,0 +1,108 @@
+class Scrabble():
+
+	def __init__(self, tiles):
+		self.tiles = tiles
+
+	def basic_anagram(self):
+		"""
+		Basic anagram solver that uses placeholder '1' for blank tiles.
+		'1esires' will yield:
+		'desires', 'heiress', 'soiress'
+		"""
+
+		f = open("words.csv").read().split()  
+
+		alphabet= ['a','b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l','m',
+		'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+		for words in f:
+			if '1' in self.tiles:
+				for alpha in alphabet:
+					if sorted(self.tiles.replace('1',alpha)) == sorted(words):
+						print(words)
+			else:
+				if sorted(self.tiles) == sorted(words):
+					print(words)
+
+	def open_letters(self, open_letter):
+		"""
+		Solves 8-letter anagrams using additional letters (open_letter) 
+		for the provided 7-letter set
+		self.tiles = '1esires'
+		open_letter = 's'
+		Yield:
+		'seisures'
+		"""
+
+		f = open("words.csv").read().split()  
+
+		alphabet= ['a','b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l','m',
+		'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+		for words in f:
+			if '1' in self.tiles:
+				for letter in open_letter:
+					for alpha in alphabet:
+						if sorted(self.tiles.replace('1',alpha) + letter.strip())== sorted(words):
+							return(words)
+			else:
+				for letter in open_letter:
+					if sorted(self.tiles + letter.strip()) == sorted(words):
+						return(words)
+
+	def targeting(self, target, position, open_letter):
+
+		"""
+		Provides anagrams with a specific position for a specific letter
+		self.tiles = '1esires'
+		position = 1
+		target = 'd'
+		Yield:
+		'desires'
+		"""
+
+		wordbank = []
+
+		position = position - 1
+
+		f = open("words.csv").read().split()  
+
+		alphabet= ['a','b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l','m',
+		'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+		if open_letter == '':
+
+			for words in f:
+				if '1' in self.tiles:
+					for alpha in alphabet:
+						if sorted(self.tiles.replace('1',alpha)) == sorted(words):
+							wordbank.append(words)
+				else:
+					if sorted(self.tiles + letter.strip()) == sorted(words):
+						wordbank.append(words)
+
+		else:
+			for words in f:
+				if '1' in self.tiles:
+					for letter in open_letter:
+						for alpha in alphabet:
+							if sorted(self.tiles.replace('1',alpha) + letter.strip())== sorted(words):
+								wordbank.append(words)
+				else:
+					for letter in open_letter:
+						if sorted(self.tiles + letter.strip()) == sorted(words):
+							wordbank.append(words)
+				
+		for w in wordbank:
+			if w[0] == target:
+				print(w)
+		
+
+
+result = Scrabble('1esires')
+
+print(result.basic_anagram())
+
+print(result.open_letters('s'))
+
+print(result.targeting('d',1,''))
